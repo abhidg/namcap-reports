@@ -1,0 +1,17 @@
+W missing-maintainer Missing Maintainer tag
+W missing-contributor Missing Contributor tag
+W missing-cvs-id Missing CVS Id tag
+E missing-url Missing url
+W variable-not-array is not an array
+E bad-backups Backup entries should not have preceeding slashes
+E caps-in-package-name No upper case letters in package names
+W no-specific-arch Reference to one of
+W extra-vars-underscore doesn't start with an underscore
+E missing-license Missing license
+E missing-md5sum Missing md5sums
+E not-enough-md5sums Not enough md5sums
+E too-many-md5sum Too many md5sums
+E improper-md5sum Improper md5sum
+W specific-sourceforge-mirror Attempting to use specific sf.net mirror, use downloads.sourceforge.net instead
+W using-dl-sourceforge Attempting to use dl.sourceforge.net, use downloads.sourceforge.net instead
+W invalid-start-dir file referenced in $startdir outside of $startdir/src or $startdir/pkg
