@@ -140,6 +140,8 @@ this report was generated.<br/>
 <title>namcap tag: %s</title>
 <link rel="stylesheet" type="text/css" href="/arch/arch.css" />
 <link rel="alternate" type="application/rss+xml" title="namcap tag: %s" href="http://abhidg.mine.nu/arch/namcap-reports/tag/%s.rss" />
+<script type="text/javascript" src="/jquery-1.2.6.min.js"></script>
+<script type="text/javascript" src="../togglers.js"></script>
 </head>
 <body>
 <h1><span class="%s">%s</span>%s</h1>
@@ -148,7 +150,9 @@ The following packages have the namcap tag: %s<br/>The description of this tag i
 <div class="%s">
 %s
 </div>
-<p><img src="/i/feed-icon-14x14.png" alt="RSS" /> An <a href="%s.rss">RSS</a> feed is available for this page.</p>
+<p><img src="/i/feed-icon-14x14.png" alt="RSS" /> An <a href="%s.rss">RSS</a> feed is available for this page.<br/>
+toggle <a href="#" id="toggle-core">core</a> <a href="#" id="toggle-extra">extra</a>
+<a href="#" id="toggle-community">community</a></p>
 """ % (t, t, t, tagclass(t, errors, warnings), tagclass(t, errors, warnings), t, t, tagclass(t, errors, warnings), tagscribe.has_key(t) and tagscribe[t] or "<p>"+tags[t]+"</p>", t)
 		print >>f, "\n".join(map(lambda p: "<li class='"+repopkg(p, repodb) +"'>"+p+" <span class='"+repopkg(p, repodb)+"'>"+repopkg(p, repodb)+"</span></li>", sorted(bytag[t])))
 		print >>f, "</ul>"
