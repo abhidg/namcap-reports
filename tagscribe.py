@@ -13,7 +13,7 @@ PKGBUILD.</p>
 tagscribe["missing-contributor"] = \
 """
 <p>Missing Contributor tag</p>
-<p>The <code>Maintainer:</code> tag is missing in the
+<p>The <code>Contributor:</code> tag is missing in the
 PKGBUILD.</p>
 """
 
