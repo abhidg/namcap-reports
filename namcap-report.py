@@ -75,6 +75,7 @@ def tagclass(t, errors, warnings):
 def report(bytag, errors, warnings, tags):
 	f = open('index.html', 'w')
 	last_updated=time.strftime('%d %b %Y %H:%M %z',time.gmtime(os.stat('namcap.log').st_mtime))
+
 	print >>f, """
 <html>
 <head>
@@ -87,7 +88,8 @@ def report(bytag, errors, warnings, tags):
 namcap is a utility for <a href="http://archlinux.org">Archlinux</a>
 which helps in automatic detection of common mistakes and errors in
 PKGBUILDs. This page is an automatically generated report obtained
-after running namcap against the <tt>community</tt> tree.</p>
+after running namcap against the <tt>core</tt>, <tt>extra</tt> and
+<tt>community</tt> trees.</p>
 <p>You can get the <a href="namcap.log">namcap.log</a> from which
 this report was generated.<br/>
 (last generated on %s)</p>
@@ -134,11 +136,12 @@ The following packages have the namcap tag: %s<br/>The description of this tag i
 
 def rss(bytag, tags):
 	"Generates an RSS feed of the tags."
+	last_updated_raw = os.stat('namcap.log').st_mtime
 	head_url = "http://abhidg.mine.nu/arch/namcap-reports/tag/"
 	for t in bytag.keys():
 		f = open('tag/'+t+'.rss','w')
-		c = feedwriter.Channel(title='namcap tag: '+t, link=head_url+t, description=tags[t])
-		for pkg in sorted(bytag[t]): c.add_item(title=pkg, link=head_url+t, pubDate=time.time())
+		c = feedwriter.Channel(title='namcap tag: '+t, link=head_url+t, description=(tagscribe.has_key(t) and tagscribe[t] or tags[t]))
+		for pkg in sorted(bytag[t]): c.add_item(title=pkg, link=head_url+t, pubDate=last_updated_raw)
 		print >>f, c.rss2()
 		f.close()
 	
