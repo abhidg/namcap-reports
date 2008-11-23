@@ -89,7 +89,7 @@ def repopkg(pkgname, repolist):
 		if pkgname in repolist[repo]:
 			return repo
 	print "E: %s belongs to no repository!" % pkgname
-	exit(1)
+	return "none"
 
 def tagclass(t, errors, warnings):
 	if t in warnings: return 'W'
