@@ -116,7 +116,7 @@ after running namcap against the <tt>core</tt>, <tt>extra</tt> and
 <tt>community</tt> trees.</p>
 <p>You can get the <a href="namcap.log">namcap.log</a> from which
 this report was generated.<br/>
-(last generated on %s)</p>
+(last generated on <span class="date">%s</span>)</p>
 <p>The code can be found in <a href="/gitweb">gitweb</a>.</p>
 """ % last_updated
 	print >>f, "<ul>"
