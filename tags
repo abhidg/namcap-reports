@@ -14,4 +14,4 @@ E too-many-md5sum Too many md5sums
 E improper-md5sum Improper md5sum
 W specific-sourceforge-mirror Attempting to use specific sf.net mirror, use downloads.sourceforge.net instead
 W using-dl-sourceforge Attempting to use dl.sourceforge.net, use downloads.sourceforge.net instead
-W invalid-start-dir file referenced in $startdir outside of $startdir/src or $startdir/pkg
+E invalid-start-dir File referenced in $startdir outside of $startdir/src or $startdir/pkg
