@@ -4,10 +4,13 @@
 # Written by Abhishek Dasgupta <abhidg@gmail.com>
 # feedparser.py from http://offog.org/code/misccode.html
 
-import re, feedwriter, time, os
+import re, feedwriter, time, os, ConfigParser
 # Get the tag descriptions.
 from tagscribe import tagscribe
 from sys import exit
+
+standard_locations=('/etc/namcap-reports.conf', 
+	os.path.expanduser('~/.namcap-reports.conf'))		
 
 def die(s):
 	print "E: "+s
@@ -169,6 +172,20 @@ def rss(bytag, tags):
 		f.close()
 	
 if __name__ == "__main__":
+	config = ConfigParser.RawConfigParser()
+	for location in standard_locations:
+		numloc=0
+		if os.path.exists(location):
+			config.read(location)
+			url=config.get('namcap-reports','url')
+			output_dir=config.get('namcap-reports','output_dir')
+			template_dir=config.get('namcap-reports','template_dir')
+			numloc+=1
+
+	if numloc==0: die("No configuration file found\nPut a config file in either:" + \
+		"\n  /etc/namcap-reports.conf\n  $HOME/.namcap-reports.conf")
+
+	os.chdir(output_dir)
 	warnings, errors, tags = tags('tags')
 	pkglist = seelog(tags)
 	bytag = tagged(pkglist, tags)
