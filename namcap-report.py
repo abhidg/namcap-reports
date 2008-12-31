@@ -10,7 +10,9 @@ from tagscribe import tagscribe
 from sys import exit
 
 standard_locations=('/etc/namcap-reports.conf', 
-	os.path.expanduser('~/.namcap-reports.conf'))		
+	os.path.expanduser('~/.namcap-reports.conf'))
+
+url, output_dir, template_dir = "http://abhidg.mine.nu", "/arch", "/arch"	
 
 def die(s):
 	print "E: "+s
@@ -103,7 +105,7 @@ def report(bytag, errors, warnings, tags, repos):
 	f = open('index.html', 'w')
 	last_updated=time.strftime('%d %b %Y %H:%M %z',time.gmtime(os.stat('namcap.log').st_mtime))
 
-	g = open('index.html.tmpl')
+	g = open(template_dir + '/index.html.tmpl')
 	print >>f, ''.join(g.readlines()) % last_updated
 	print >>f, "<ul>"
 	for t in sorted(bytag.keys()):
@@ -130,7 +132,7 @@ def report(bytag, errors, warnings, tags, repos):
 
 	for t in bytag.keys():
 		f = open('tag/'+t+'.html','w')
-		print >>f, ''.join(open('tags.html.tmpl').readlines()) % \
+		print >>f, ''.join(open(template_dir + '/tags.html.tmpl').readlines()) % \
 			(t, t, t, tagclass(t, errors, warnings), tagclass(t, errors, warnings) \
 			, t, t, tagclass(t, errors, warnings), tagscribe.has_key(t) and \
 			tagscribe[t] or "<p>"+tags[t]+"</p>", t)
@@ -162,7 +164,7 @@ def maint_report(maintainers, pkglist):
 def rss(bytag, tags):
 	"Generates an RSS feed of the tags."
 	last_updated_raw = os.stat('namcap.log').st_mtime
-	head_url = "http://abhidg.mine.nu/arch/namcap-reports/tag/"
+	head_url = url + "/tag/"
 	for t in bytag.keys():
 		f = open('tag/'+t+'.rss','w')
 		c = feedwriter.Channel(title='namcap tag: '+t, link=head_url+t, \
