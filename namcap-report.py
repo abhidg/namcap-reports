@@ -12,7 +12,7 @@ from sys import exit
 standard_locations=('/etc/namcap-reports.conf', 
 	os.path.expanduser('~/.namcap-reports.conf'))
 
-url, output_dir, template_dir = "http://abhidg.mine.nu", "/arch", "/arch"	
+url, output_dir, template_dir, repo_files = "http://abhidg.mine.nu", "/arch", "/arch", "/arch"	
 
 def die(s):
 	print "E: "+s
@@ -82,7 +82,7 @@ def repolist(repofiles):
 	repolist = {}
 	# Assuming all the files are there, readable, etc. etc.
 	for repo in repofiles:
-		f = open(repo)
+		f = open(repo_files + "/" + repo)
 		repolist[repo] = map(lambda s: s[:-1], f.readlines())
 		f.close()
 
@@ -182,6 +182,7 @@ if __name__ == "__main__":
 			url=config.get('namcap-reports','url')
 			output_dir=config.get('namcap-reports','output_dir')
 			template_dir=config.get('namcap-reports','template_dir')
+			repo_files=config.get('namcap-reports','repo_files')
 			numloc+=1
 
 	if numloc==0: die("No configuration file found\nPut a config file in either:" + \
