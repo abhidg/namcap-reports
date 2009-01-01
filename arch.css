@@ -1,0 +1,61 @@
+body {margin:auto; width:70%; max-width:600px;}
+
+/*h1,h2,h3,h4 {font-family: Arial, sans-serif}*/
+
+h1 {
+ padding: 5px 0px;
+ border-bottom: 1px dashed silver;
+}
+
+span.date {font-weight: bold;}
+span.W, span.E {margin-right:5px; font-family: monospace; font-size:120%; padding: 3px}
+span.E {background: #ff6700; color:#222; font-weight: normal}
+span.W {background: #ffe844; color: #222; font-weight: normal}
+
+div#breadcrumbs {border-bottom: 1px dotted grey; 
+	background: #f8f8f8;}
+div#breadcrumbs p {
+	vertical-align:middle; margin-bottom: 2px;
+	padding: 5px;
+	margin-top: -22px}
+
+p.info {
+	padding: 5px;
+	background: #fffbc3;
+	margin-top: 0px;
+	border-bottom: 1px dotted silver;
+}
+span.core, span.extra, span.community, span.none {
+ font-size: 65%; padding:2px; border:1px solid silver; font-family:sans-serif;
+}
+span.core {background: #ffe5ca}
+span.extra {background: #fffdbf}
+span.community {background: #d9ffb4}
+span.none {background: #fafafa}
+
+div.W {background: #ffffdd; border: 1px solid #F6E665; padding: 5px 15px; width: 60% }
+div.E {background: #ffe0c4; border: 1px solid #ff8b51; padding: 5px; width:60% }
+
+
+#toggle-core, #toggle-extra, #toggle-community {
+  font-size: 70%; color: black;
+  font-family: sans-serif;
+  padding: 2px;
+  border: 1px solid silver;
+  text-decoration: none;
+}
+
+#toggle-core {background: #ffe5ca}
+#toggle-extra {background: #fffdbf}
+#toggle-community {background: #d9ffb4}
+
+
+div#breadcrumbs a {text-decoration:none}
+p#footer {font-family: Arial, sans-serif; color:grey; font-size: 80%}
+p, li {line-height: 1.3}
+
+@media print {
+	div#breadcrumbs { display: none}
+	h1 { color: grey}
+	body {width: 90%}
+}
