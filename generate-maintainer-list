@@ -1,0 +1,4 @@
+#!/bin/bash
+
+WORKDIR=/arch
+${WORKDIR}/maintainers.sh | /usr/bin/awk -F ', ' '{print $2 ", " $1}' >| ${WORKDIR}/maintainers.txt
