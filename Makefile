@@ -1,23 +1,19 @@
-# Makefile for copying namcap-reports to the server
+# Makefile for generating namcap-reports
 # Abhishek Dasgupta 
+
+WORKDIR=/arch
 
 default:
 	# do nothing	
 fetch:
-	abs # Run abs to get the latest stuff
-	gen-namcap-log
+	/usr/bin/abs # Run abs to get the latest stuff
+	${WORKDIR}/gen-namcap-log
 
 report:
-	cd ~/files/code/namcap-reports
-	mv namcap.log namcap.old
-	mv /var/abs/namcap.log .
-	pacman -Sql community >| community
-	pacman -Sql core >| core
-	pacman -Sql extra >| extra
-	python namcap-report.py
+	/bin/mv ${WORKDIR}/namcap.log ${WORKDIR}/namcap.old || /bin/echo "W: No old namcap.log found."
+	/bin/mv /var/abs/namcap.log ${WORKDIR}
+	${WORKDIR}/gen-pkglist-by-repository
+	/opt/local/bin/python2.5 ${WORKDIR}/namcap-report.py
 
-copy:
-	backup namcap-reports
-
-all: fetch report copy
+all: fetch report
 	
