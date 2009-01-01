@@ -1,0 +1,10 @@
+#!/bin/bash
+echo "# gen-namcap-log started: $(date)"
+ROOT=/var/abs
+
+cd "$ROOT"
+
+for p in $(find . -type f | grep PKGBUILD); do
+	namcap $p 2> /dev/null >> namcap.log
+done
+echo "# gen-namcap-log stopped: $(date)"
