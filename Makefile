@@ -15,5 +15,9 @@ report:
 	${WORKDIR}/gen-pkglist-by-repository
 	/opt/local/bin/python2.5 ${WORKDIR}/namcap-report.py
 
+maintainers:
+	${WORKDIR}/generate-maintainer-list
+	/opt/local/bin/python2.5 ${WORKDIR}/maintainer-report.py
+
 all: fetch report
 	

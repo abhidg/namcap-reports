@@ -15,6 +15,13 @@ Here's how the thing works:
 * namcap-report.py takes the namcap.log plus these three repository listings
   and generates the output (both the html and rss).
 
+The maintainer report generation works as follows:
+* First a maintainers.txt file is created in the same directory as the
+  code; this is basically the output of parsing the PKGBUILDs and
+  printing out the "# Maintainer: " lines along with the $pkgname.
+* Then maintainer-report.py runs and generates the output, by
+  default in the "maintainer/" directory.
+
 There's a configuration file for namcap-report now; either
 /etc/namcap-reports.conf or $HOME/.namcap-reports.conf which has the
 format as given in namcap-reports.conf.example

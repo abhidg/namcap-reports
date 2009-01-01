@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # namcap-report: Generates pretty output of namcap.log
 
-# Copyright (c) 2008, Abhishek Dasgupta <abhidg@gmail.com>
+# Copyright (c) 2008, 2009 Abhishek Dasgupta <abhidg@gmail.com>
 # Anyone may use this code for any purpose.
 # There's no guarantee that this won't melt your computer
 # or will not cause an apocalypse, etc. You get the idea.
