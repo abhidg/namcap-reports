@@ -1,0 +1,9 @@
+#!/bin/bash
+
+WORKDIR=/arch
+
+cd $WORKDIR
+for i in core extra community; do
+	/opt/local/bin/wget -r ftp://ftp.archlinux.org/$i/os/i686/$i.db.tar.gz
+	(tar tzvf ftp.archlinux.org/$i/os/i686/$i.db.tar.gz  | cut -c 52- | grep /$ | sed "s/\(.*\)-[0-9,a-z,A-Z,_,\.]*-[0-9]*\//\1/g") >| $WORKDIR/$i
+done
