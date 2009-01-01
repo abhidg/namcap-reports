@@ -1,0 +1,5 @@
+[namcap-reports]
+url: http://abhidg.mine.nu/arch/namcap-reports
+output_dir: /arch/namcap-reports
+template_dir: /arch/namcap-reports
+repo_files: /arch/namcap-reports
