@@ -1,8 +1,10 @@
 #!/usr/bin/env python
 # namcap-report: Generates pretty output of namcap.log
 
-# Written by Abhishek Dasgupta <abhidg@gmail.com>
-# feedparser.py from http://offog.org/code/misccode.html
+# Copyright (c) 2008, Abhishek Dasgupta <abhidg@gmail.com>
+# Anyone may use this code for any purpose.
+# There's no guarantee that this won't melt your computer
+# or will not cause an apocalypse, etc. You get the idea.
 
 import re, feedwriter, time, os, ConfigParser
 # Get the tag descriptions.
