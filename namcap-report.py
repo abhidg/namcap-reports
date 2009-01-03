@@ -115,6 +115,7 @@ def report(bytag, errors, warnings, tags, repos):
 	f = open('index.html', 'w')
 	last_updated=time.strftime('%d %b %Y %H:%M %z',time.gmtime(os.stat('namcap.log').st_mtime))
 
+	progress_log = open(output_dir + '/namcap-report-progress.log', 'a')
 	g = open(template_dir + '/index.html.tmpl')
 	print >>f, ''.join(g.readlines()) % last_updated
 	print >>f, "<ul>"
@@ -125,11 +126,16 @@ def report(bytag, errors, warnings, tags, repos):
 
 	print >>f, "</ul>"
 
-	print >>f, "<p>Total number of errors: %s<br/>Total number of warnings: %s</p>" % ( \
-		sum(map(lambda tag: tag in bytag.keys() and len(bytag[tag]) or 0,\
-		filter(lambda t: t in errors, tags.keys()))), \
-		sum(map(lambda tag: tag in bytag.keys() and len(bytag[tag]) or 0,\
-		filter(lambda t: t in warnings, tags.keys()))))
+	total_err = sum(map(lambda tag: tag in bytag.keys() and len(bytag[tag]) or 0,\
+		filter(lambda t: t in errors, tags.keys())))
+	total_warn = sum(map(lambda tag: tag in bytag.keys() and len(bytag[tag]) or 0,\
+		filter(lambda t: t in warnings, tags.keys())))
+
+	print >>f, "<p>Total number of errors: %d<br/>Total number of warnings: %d</p>" % ( \
+		total_err, total_warn)
+	print >> progress_log, "%s\t%d\t%d" % (time.strftime('%Y%m%d', time.gmtime()), \
+		total_err, total_warn)
+	progress_log.close()
 
 	print >>f, "<p>namcap version: 2.2<br/>Design inspired by "\
 		+ "<a href='http://lintian.debian.org'>lintian reports</a>.</p>"
