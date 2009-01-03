@@ -6,7 +6,9 @@
 # There's no guarantee that this won't melt your computer
 # or will not cause an apocalypse, etc. You get the idea.
 
-import re, feedwriter, time, os, ConfigParser
+ver="0.2"
+
+import re, feedwriter, time, os, ConfigParser, sys
 # Get the tag descriptions.
 from tagscribe import tagscribe
 from sys import exit
@@ -14,7 +16,13 @@ from sys import exit
 standard_locations=('/etc/namcap-reports.conf', 
 	os.path.expanduser('~/.namcap-reports.conf'))
 
+verbose=False
 url, output_dir, template_dir, repo_files = "http://abhidg.mine.nu", "/arch", "/arch", "/arch"	
+
+def warn(s):
+	f = open(output_dir + '/namcap-report-error.log','a')
+	print >>f, s
+	if verbose: print s
 
 def die(s):
 	print "E: "+s
@@ -95,7 +103,7 @@ def repopkg(pkgname, repolist):
 	for repo in repolist:
 		if pkgname in repolist[repo]:
 			return repo
-	print "E: %s belongs to no repository!" % pkgname
+	warn("namcap-report: belongs-to-no-repository %s" % pkgname)
 	return "none"
 
 def tagclass(t, errors, warnings):
@@ -150,10 +158,6 @@ def genlistitem(p, repodb):
 	repo_of_p = repopkg(p, repodb)
 	return "<li class='"+repo_of_p +"'>"+p+" <span class='"+repo_of_p+"'>"+repo_of_p+"</span></li>"
 	
-def maints(repo):
-	"Creates a dictionary of maintainers: packages by parsing repo."
-#	for xome in os..walk(repo)
-
 def maint_report(maintainers, pkglist):
 	"""Generates report by maintainer.
 	maintainers: A dictionary in which the keys are the maintainers
@@ -174,8 +178,23 @@ def rss(bytag, tags):
 		for pkg in sorted(bytag[t]): c.add_item(title=pkg, link=head_url+t, pubDate=last_updated_raw)
 		print >>f, c.rss2()
 		f.close()
-	
+
+def version():
+	print "namcap-reports " + ver
+	print "This is an utility to generate reports from the namcap"
+	print "output after running namcap over a set of PKGBUILDs."
+	print "namcap is part of the Archlinux distribution (archlinux.org)"
+	print
+	print "Copyright (C) 2008, 2009 Abhishek Dasgupta <abhidg@gmail.com>"
+	print "Check the COPYING file for license details."
+
 if __name__ == "__main__":
+	if "--version" in sys.argv:
+		version()
+		exit(1)
+	if "-v" in sys.argv or "--verbose" in sys.argv: verbose=True
+	
+	# Remove any current error logs before starting the run
 	config = ConfigParser.RawConfigParser()
 	for location in standard_locations:
 		numloc=0
@@ -190,10 +209,11 @@ if __name__ == "__main__":
 	if numloc==0: die("No configuration file found\nPut a config file in either:" + \
 		"\n  /etc/namcap-reports.conf\n  $HOME/.namcap-reports.conf")
 
+	if os.path.exists(output_dir + '/namcap-report-error.log'):
+		os.remove(output_dir + '/namcap-report-error.log')
 	os.chdir(output_dir)
 	warnings, errors, tags = tags('tags')
 	pkglist = seelog(tags)
 	bytag = tagged(pkglist, tags)
 	report(bytag, errors, warnings, tags, ['core', 'extra', 'community'])
 	rss(bytag, tags)
-	#maint_report(maintainers, pkglist)
