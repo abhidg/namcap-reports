@@ -48,7 +48,7 @@ A sample Makefile is also there. Currently a copy of namcap.log has to
 present in the same directory where the code is, but it is easy to fix
 that.
 
-ERROR LOGS
+LOGS
 
 namcap-report and maintainer-report store the error logs in
 namcap-report-error.log and maintainer-report-error.log respectively.
@@ -56,4 +56,8 @@ At the start of each run, these error logs are *deleted*, so be sure to
 keep a copy if you need to reference the logs at a later time. If you
 give the verbose (-v) switch to them on the command line, the errors are
 also printed to screen.
+
+namcap-report generates another log: namcap-report-progress.log, which
+has the total number of errors and warnings over time. This can be useful
+later, for example for drawing nice graphs :)
 
