@@ -22,7 +22,7 @@ url, output_dir, template_dir, repo_files = "http://abhidg.mine.nu", "/arch", "/
 def warn(s):
 	f = open(output_dir + '/namcap-report-error.log','a')
 	print >>f, s
-	if verbose: print s
+	if verbose: print >>sys.stderr, s
 
 def die(s):
 	print "E: "+s
@@ -30,7 +30,8 @@ def die(s):
 
 def tags(file):
 	"Gets tag data from a file"
-	
+
+	if verbose: print "namcap-report: getting tag data from file..."	
 	warnings = []
 	errors = []
 	tagd = {}
@@ -57,6 +58,7 @@ def tagname(line, tags):
 		
 def seelog(tags, logfile='namcap.log'):
 	"Processes the log file."
+	if verbose: print "namcap-report: processing the log file..."	
 	pkglist = {}
 	try:
 		f = open(logfile)
@@ -88,6 +90,8 @@ def repolist(repofiles):
 	and the items are lists of packages in the particular repository.
 	The input is a list of files (which itself must be named the *same*
 	as the repository itself) in the current directory."""
+	
+	if verbose: print "namcap-report: making the repository list..."	
 
 	repolist = {}
 	# Assuming all the files are there, readable, etc. etc.
@@ -111,6 +115,8 @@ def tagclass(t, errors, warnings):
 	if t in errors: return 'E'
 
 def report(bytag, errors, warnings, tags, repos):
+
+	if verbose: print "namcap-report: generating actual report..."	
 	repodb = repolist(repos)
 	f = open('index.html', 'w')
 	last_updated=time.strftime('%d %b %Y %H:%M %z',time.gmtime(os.stat('namcap.log').st_mtime))
@@ -175,6 +181,8 @@ def maint_report(maintainers, pkglist):
 
 def rss(bytag, tags):
 	"Generates an RSS feed of the tags."
+	
+	if verbose: print "namcap-report: generating the RSS feeds..."	
 	last_updated_raw = os.stat('namcap.log').st_mtime
 	head_url = url + "/tag/"
 	for t in bytag.keys():
