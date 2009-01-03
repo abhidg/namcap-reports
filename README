@@ -22,6 +22,8 @@ The maintainer report generation works as follows:
 * Then maintainer-report.py runs and generates the output, by
   default in the "maintainer/" directory.
 
+CONFIGURATION
+
 There's a configuration file for namcap-report now; either
 /etc/namcap-reports.conf or $HOME/.namcap-reports.conf which has the
 format as given in namcap-reports.conf.example
@@ -32,6 +34,10 @@ output_dir: /arch/namcap-reports
 template_dir: /arch/namcap-reports
 repo_files: /arch/namcap-reports
 
+output_dir is the most important one, that's where namcap-report and
+maintainer-report place the generated files (maintainer-report actually
+puts everything in a maintainer/ subdirectory of the output_dir directory).
+
 url is the base url for the RSS feeds and template_dir is the directory
 where the index.html.tmpl and tags.html.tmpl files are stored (These are
 the files which namcap-report uses to prepare the output). repo_files is
@@ -41,3 +47,13 @@ present.
 A sample Makefile is also there. Currently a copy of namcap.log has to
 present in the same directory where the code is, but it is easy to fix
 that.
+
+ERROR LOGS
+
+namcap-report and maintainer-report store the error logs in
+namcap-report-error.log and maintainer-report-error.log respectively.
+At the start of each run, these error logs are *deleted*, so be sure to
+keep a copy if you need to reference the logs at a later time. If you
+give the verbose (-v) switch to them on the command line, the errors are
+also printed to screen.
+
