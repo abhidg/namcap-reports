@@ -6,11 +6,19 @@
 # There's no guarantee that this won't melt your computer
 # or will not cause an apocalypse, etc. You get the idea.
 
+ver="0.2"
 import re, sys, time, os, ConfigParser
 from maintainers import maintainers
 
+verbose=False
+
 standard_locations = ('/etc/namcap-reports.conf', \
 	os.path.expanduser('~/.namcap-reports.conf'))
+
+def warn(s):
+	f = open(output_dir + '/maintainer-report-error.log','a')
+	print >>f, s
+	if verbose: print >>sys.stderr, s
 
 def parse_maintainer(m):
 	"Parses the Maintainer string"
@@ -22,7 +30,7 @@ def parse_maintainer(m):
 		return "error"
 
 	if name not in maintainers.keys():
-		print >> sys.stderr, "W: not-a-maintainer " + name
+		warn("maintainer-report: not-a-maintainer " + name)
 		return "someone"
 	else:
 		return maintainers[name]
@@ -48,7 +56,21 @@ def parse_namcap(filename='namcap.log'):
 def print_namcap(thing):
 	return "<li><span class='%s'>%s</span> %s</li>" % (thing[0], thing[0], thing[3:])
 
+def version():
+	print "maintainer-report " + ver
+	print "This is an utility to generate reports by maintainer from"
+	print "the namcap output after running namcap over a set of PKGBUILDs."
+	print "namcap is part of the Archlinux distribution (archlinux.org)"
+	print
+	print "Copyright (C) 2008, 2009 Abhishek Dasgupta <abhidg@gmail.com>"
+	print "Check the COPYING file for license details."
+
 if __name__ == "__main__":
+	if "--version" in sys.argv:
+		version()
+		sys.exit(0)
+
+	if "-v" in sys.argv or "--verbose" in sys.argv: verbose=True
 	config = ConfigParser.RawConfigParser()
 	for location in standard_locations:
 		numloc=0
@@ -62,6 +84,11 @@ if __name__ == "__main__":
 	if numloc==0: die("No configuration file found\nPut a config file in either:" + \
 		"\n  /etc/namcap-reports.conf\n  $HOME/.namcap-reports.conf")
 	
+	
+	if os.path.exists(output_dir + '/maintainer-report-error.log'):
+		os.remove(output_dir + '/maintainer-report-error.log')
+	
+	# Beginning of main code.
 	f = open(repo_files + "/maintainers.txt")
 	maintpkg = {}
 	for i in f.readlines():
