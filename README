@@ -42,7 +42,8 @@ url is the base url for the RSS feeds and template_dir is the directory
 where the index.html.tmpl and tags.html.tmpl files are stored (These are
 the files which namcap-report uses to prepare the output). repo_files is
 the directory where the package listings core, extra and community are
-present.
+present. maintainer-report also looks for 'maintainers.txt' in the
+repo_files directory.
 
 A sample Makefile is also there. Currently a copy of namcap.log has to
 present in the same directory where the code is, but it is easy to fix
