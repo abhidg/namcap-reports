@@ -137,8 +137,9 @@ def report(bytag, errors, warnings, tags, repos):
 	total_warn = sum(map(lambda tag: tag in bytag.keys() and len(bytag[tag]) or 0,\
 		filter(lambda t: t in warnings, tags.keys())))
 
-	print >>f, "<p>Total number of errors: %d<br/>Total number of warnings: %d</p>" % ( \
-		total_err, total_warn)
+	print >>f, "<p>Total number of errors: %d (<a href='namcap-report-progress.log'>" \
+		"progress</a>)<br/>Total number of warnings: %d</p>" % (total_err, total_warn)
+
 	print >> progress_log, "%s\t%d\t%d" % (time.strftime('%Y%m%d', time.gmtime()), \
 		total_err, total_warn)
 	progress_log.close()
