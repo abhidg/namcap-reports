@@ -100,13 +100,14 @@ if __name__ == "__main__":
 		maintpkg[id].append(pkg)
 	
 	f.close()
-	last_updated=time.strftime('%d %b %Y %H:%M %z',time.gmtime(os.stat('namcap.log').st_mtime))
+	last_updated=time.strftime('%d %b %Y %H:%M %z',time.gmtime(os.stat(output_dir\
+		+ '/namcap.log').st_mtime))
 	f = open(template_dir + '/maintainer.index.html.tmpl')
 	g = open(output_dir + '/maintainer/index.html','w')
 	print >>g, ''.join(f.readlines()) % last_updated
 	f.close()
 	print >>g, "<ul>"
-	namcaplist = parse_namcap('namcap.log')
+	namcaplist = parse_namcap(output_dir + '/namcap.log')
 	maintainer_ids = maintpkg.keys()
 	maintainer_ids.sort(key=getname)
 	for id in maintainer_ids:
