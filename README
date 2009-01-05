@@ -46,8 +46,7 @@ present. maintainer-report also looks for 'maintainers.txt' in the
 repo_files directory.
 
 A sample Makefile is also there. Currently a copy of namcap.log has to
-present in the same directory where the code is, but it is easy to fix
-that.
+present in output_dir, but it is easy to fix that.
 
 LOGS
 
