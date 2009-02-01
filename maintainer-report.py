@@ -93,7 +93,7 @@ if __name__ == "__main__":
 	maintpkg = {}
 	for i in f.readlines():
 		id, pkg = i[:-1].split(",")
-		id = parse_maintainer(unicode(id))
+		id = parse_maintainer(id)
 		pkg = pkg.strip()
 		if id not in maintpkg.keys():
 			maintpkg[id] = []
