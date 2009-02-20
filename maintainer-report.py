@@ -119,7 +119,7 @@ if __name__ == "__main__":
 				print >>h, "<h2>%s</h2> <ul>" % pkg
 				for thing in namcaplist[pkg]: print >>h, print_namcap(thing)
 				print >>h, "</ul>"
-		print >>g, "<li><a href='%s'>%s (%s)</a></li>" % (id, getname(id), id)
+		print >>g, "<li><a href='%s.html'>%s (%s)</a></li>" % (id, getname(id), id)
 		print >>h, "</body></html>"
 		h.close()
 

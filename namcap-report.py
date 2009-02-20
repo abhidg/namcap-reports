@@ -126,7 +126,7 @@ def report(bytag, errors, warnings, tags, repos):
 	print >>f, ''.join(g.readlines()) % last_updated
 	print >>f, "<ul>"
 	for t in sorted(bytag.keys()):
-		print >>f, """<li><span class="%s">%s</span><a href="tag/%s">%s</a> \
+		print >>f, """<li><span class="%s">%s</span><a href="tag/%s.html">%s</a> \
 		  (%d packages)</li>""" % (tagclass(t, errors, warnings), \
           tagclass(t, errors, warnings), t, t, len(bytag[t]))
 
