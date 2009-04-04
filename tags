@@ -15,3 +15,15 @@ E improper-md5sum Improper md5sum
 W specific-sourceforge-mirror Attempting to use specific sf.net mirror, use downloads.sourceforge.net instead
 W using-dl-sourceforge Attempting to use dl.sourceforge.net, use downloads.sourceforge.net instead
 E invalid-start-dir File referenced in $startdir outside of $startdir/src or $startdir/pkg
+W dependency-is-testing-release on your system is a testing release
+E dependency-detected-not-included Dependency detected and not included
+E file-in-non-standard-dir exists in a non-standard directory
+W directory-empty is empty
+E non-fhs-man-page Non-FHS man page
+W potential-non-fhs-man-page Potential non-FHS man page
+E info-dir-file-presence Info directory file
+E libtool-file-presence is a libtool file
+E missing-custom-license-dir Missing custom license directory
+E missing-custom-license-file Missing custom license file
+E not-common-license is not a common license
+E perllocal-pod-presence perllocal.pod found in 
