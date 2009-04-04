@@ -171,9 +171,8 @@ def genlistitem(p, repodb):
 	repo_of_p = repopkg(p, repodb)
 	if repo_of_p in ['core', 'extra']:
 		return """<li class="%s">
-<a href="http://archlinux.org/packages/%s/i686/%s">%s</a>
-<span class="%s">%s</span></li>"""
-	% (repo_of_p, repo_of_p, p, p, repo_of_p, repo_of_p)
+<a href="http://archlinux.org/packages/%s/i686/%s/">%s</a>
+<span class="%s">%s</span></li>"""	% (repo_of_p, repo_of_p, p, p, repo_of_p, repo_of_p)
 	else:
 		return """<li class="%s">%s <span class="%s">%s</span>
 </li>""" % (repo_of_p, p, repo_of_p, repo_of_p)
@@ -187,9 +186,9 @@ def maint_report(maintainers, pkglist):
 	"""
 	pass
 
-def rss(bytag, tags):
+def rss(bytag, tags, repos):
 	"Generates an RSS feed of the tags."
-	
+	repodb = repolist(repos)
 	if verbose: print "namcap-report: generating the RSS feeds..."	
 	last_updated_raw = os.stat('namcap.log').st_mtime
 	head_url = url + "/tag/"
@@ -199,7 +198,7 @@ def rss(bytag, tags):
 		c = feedwriter.Channel(title='namcap tag: '+t, link=head_url+t, \
 			description=(tagscribe.has_key(t) and tagscribe[t] or tags[t]))
 		for pkg in sorted(bytag[t]):
-			repo = repopkg(p, repodb)
+			repo = repopkg(pkg, repodb)
 			if repo in ['core', 'extra']:
 				c.add_item(title=pkg, link=package_url % (repo, pkg), pubDate=last_updated_raw)
 			else:
@@ -244,4 +243,4 @@ if __name__ == "__main__":
 	pkglist = seelog(tags)
 	bytag = tagged(pkglist, tags)
 	report(bytag, errors, warnings, tags, ['core', 'extra', 'community'])
-	rss(bytag, tags)
+	rss(bytag, tags, ['core', 'extra', 'community'])
