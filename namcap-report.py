@@ -167,8 +167,11 @@ alt="warning sparkline" />
 		total_warn, total_warn-lastwarn, ",".join(map(lambda s: str(s), warning_history)), \
 		min(warning_history), max(warning_history))
 
-	print >>f, "<p>namcap version: 2.2<br/>Design inspired by "\
-		+ "<a href='http://lintian.debian.org'>lintian reports</a>.</p>"
+	print >>f, """
+<p class="footer">namcap version: <b>2.2</b> design inspired by
+<a href='http://lintian.debian.org'>lintian reports</a>.<br/>
+sparklines generated using <a href='http://sparklines-bitworking.appspot.com'>
+http://sparklines-bitworking.appspot.com</a></p>"""
 	
 	print >>f, "</body></html>"
 
