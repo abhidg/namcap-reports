@@ -137,12 +137,35 @@ def report(bytag, errors, warnings, tags, repos):
 	total_warn = sum(map(lambda tag: tag in bytag.keys() and len(bytag[tag]) or 0,\
 		filter(lambda t: t in warnings, tags.keys())))
 
-	print >>f, "<p>Total number of errors: %d (<a href='namcap-report-progress.log'>" \
-		"progress</a>)<br/>Total number of warnings: %d</p>" % (total_err, total_warn)
-
 	print >> progress_log, "%s\t%d\t%d" % (time.strftime('%Y%m%d', time.gmtime()), \
 		total_err, total_warn)
 	progress_log.close()
+
+	progress_log_read = open(output_dir + '/namcap-report-progress.log')
+
+	# Process the last fortnight's data and generate a sparkline.
+	error_history, warning_history = [], []
+	for i in progress_log_read.readlines()[-30:]:
+		progress_log_fields = i[:-1].split()
+		error_history.append(int(progress_log_fields[1]))
+		warning_history.append(int(progress_log_fields[2]))
+
+	try:
+		lasterr, lastwarn = error_history[-2], warning_history[-2]
+	except:
+		lasterr, lastwarn = 0, 0
+	
+	print >>f, """
+<p>Total number of errors: %d (%d)
+<img src="http://sparklines-bitworking.appspot.com/spark.cgi?type=impulse&d=%s&limits=%d,%d&height=12&above-color=red"
+alt="error sparkline" /> (<a href="namcap-report-progress.log">progress</a>)<br/>
+Total number of warnings: %d (%d)
+<img src="http://sparklines-bitworking.appspot.com/spark.cgi?type=impulse&d=%s&limits=%d,%d&height=12&above-color=orange"
+alt="warning sparkline" />
+</p> """ % (total_err, total_err-lasterr, ",".join(map(lambda s: str(s), error_history)), \
+		min(error_history), max(error_history), \
+		total_warn, total_warn-lastwarn, ",".join(map(lambda s: str(s), warning_history)), \
+		min(warning_history), max(warning_history))
 
 	print >>f, "<p>namcap version: 2.2<br/>Design inspired by "\
 		+ "<a href='http://lintian.debian.org'>lintian reports</a>.</p>"
