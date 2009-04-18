@@ -16,7 +16,7 @@ standard_locations = ('/etc/namcap-reports.conf', \
 	os.path.expanduser('~/.namcap-reports.conf'))
 
 def warn(s):
-	f = open(output_dir + '/maintainer-report-error.log','a')
+	f = open(os.path.join(output_dir, 'maintainer-report-error.log'),'a')
 	print >>f, s
 	if verbose: print >>sys.stderr, s
 
@@ -85,11 +85,11 @@ if __name__ == "__main__":
 		"\n  /etc/namcap-reports.conf\n  $HOME/.namcap-reports.conf")
 	
 	
-	if os.path.exists(output_dir + '/maintainer-report-error.log'):
-		os.remove(output_dir + '/maintainer-report-error.log')
+	if os.path.exists(os.path.join(output_dir, 'maintainer-report-error.log')):
+		os.remove(os.path.join(output_dir, 'maintainer-report-error.log'))
 	
 	# Beginning of main code.
-	f = open(repo_files + "/maintainers.txt")
+	f = open(os.path.join(repo_files, "maintainers.txt"))
 	maintpkg = {}
 	for i in f.readlines():
 		id, pkg = i[:-1].split(",")
@@ -102,8 +102,8 @@ if __name__ == "__main__":
 	f.close()
 	last_updated=time.strftime('%d %b %Y %H:%M %z',time.gmtime(os.stat(output_dir\
 		+ '/namcap.log').st_mtime))
-	f = open(template_dir + '/maintainer.index.html.tmpl')
-	g = open(output_dir + '/maintainer/index.html','w')
+	f = open(os.path.join(template_dir,'maintainer.index.html.tmpl'))
+	g = open(os.path.join(output_dir, 'maintainer/index.html'),'w')
 	print >>g, ''.join(f.readlines()) % last_updated
 	f.close()
 	print >>g, "<ul>"
@@ -111,8 +111,8 @@ if __name__ == "__main__":
 	maintainer_ids = maintpkg.keys()
 	maintainer_ids.sort(key=getname)
 	for id in maintainer_ids:
-		h = open(output_dir + '/maintainer/' + id + '.html', 'w')
-		f = open(template_dir + '/maintainer.html.tmpl')
+		h = open(os.path.join(output_dir, 'maintainer/' + id + '.html'), 'w')
+		f = open(os.path.join(template_dir,'maintainer.html.tmpl'))
 		print >>h, ''.join(f.readlines()) % (getname(id), getname(id), id, getname(id))
 		for pkg in sorted(maintpkg[id]):
 			if pkg in namcaplist:

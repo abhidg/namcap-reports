@@ -20,7 +20,7 @@ verbose=False
 url, output_dir, template_dir, repo_files = "http://abhidg.mine.nu", "/arch", "/arch", "/arch"	
 
 def warn(s):
-	f = open(output_dir + '/namcap-report-error.log','a')
+	f = open(os.path.join(output_dir, 'namcap-report-error.log'),'a')
 	print >>f, s
 	if verbose: print >>sys.stderr, s
 
@@ -121,8 +121,8 @@ def report(bytag, errors, warnings, tags, repos):
 	f = open('index.html', 'w')
 	last_updated=time.strftime('%d %b %Y %H:%M %z',time.gmtime(os.stat('namcap.log').st_mtime))
 
-	progress_log = open(output_dir + '/namcap-report-progress.log', 'a')
-	g = open(template_dir + '/index.html.tmpl')
+	progress_log = open(os.path.join(output_dir, 'namcap-report-progress.log'), 'a')
+	g = open(os.path.join(template_dir, 'index.html.tmpl'))
 	print >>f, ''.join(g.readlines()) % last_updated
 	print >>f, "<ul>"
 	for t in sorted(bytag.keys()):
@@ -141,7 +141,7 @@ def report(bytag, errors, warnings, tags, repos):
 		total_err, total_warn)
 	progress_log.close()
 
-	progress_log_read = open(output_dir + '/namcap-report-progress.log')
+	progress_log_read = open(os.path.join(output_dir, 'namcap-report-progress.log'))
 
 	# Process the last fortnight's data and generate a sparkline.
 	error_history, warning_history = [], []
