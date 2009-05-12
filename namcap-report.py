@@ -96,7 +96,7 @@ def repolist(repofiles):
 	repolist = {}
 	# Assuming all the files are there, readable, etc. etc.
 	for repo in repofiles:
-		f = open(repo_files + "/" + repo)
+		f = open(os.path.join(repo_files, repo))
 		repolist[repo] = map(lambda s: s[:-1], f.readlines())
 		f.close()
 
@@ -203,15 +203,6 @@ def genlistitem(p, repodb):
 		return """<li class="%s">%s <span class="%s">%s</span>
 </li>""" % (repo_of_p, p, repo_of_p, repo_of_p)
 	
-def maint_report(maintainers, pkglist):
-	"""Generates report by maintainer.
-	maintainers: A dictionary in which the keys are the maintainers
-	             and the items are lists of packages they maintain.
-	pkglist:     Package listing comprising the tags, generated from
-	             seelog(tags).
-	"""
-	pass
-
 def rss(bytag, tags, repos):
 	"Generates an RSS feed of the tags."
 	repodb = repolist(repos)
