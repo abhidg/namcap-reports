@@ -45,9 +45,13 @@ def tagname(line, tags):
 	for i in tags.keys():
 		if tags[i] in line: return i
 		
-def seelog(tags, logfile='namcap.log'):
-	"Processes the log file."
+def seelog(logfile='namcap.log'):
+	"Processes the log file and sorts packages into tags."
 	if verbose: print "namcap-report: processing the log file..."	
+
+	tags = {}
+	sourcere = 'PKGBUILD \((.*)\)\s+([W,E]: .*)'
+	packagere = '(.*)\s+([W,E]: .*)'
 	pkglist = {}
 	try:
 		f = open(logfile)
@@ -55,24 +59,31 @@ def seelog(tags, logfile='namcap.log'):
 		die('Log file could not be opened.')
 
 	for i in f.readlines():
-		m = re.match('.* \((.*)\).*\n',i)
+		if i.startswith('PKGBUILD'):
+			m = re.match(sourcere, i)
+			source=True
+		else:
+			source=False
+			m = re.match(packagere, i)
 		pkgname = m.group(1)
-		if pkgname not in pkglist.keys():
-			pkglist[pkgname] = []
-		pkglist[pkgname].append(tagname(i, tags))
+		if source: pkgname += " (source)"
+		tagplusinfo = m.group(2)
+		tagdata = ""
+		try:
+			tagm = re.match("([W,E]: \S+) (.*)", tagplusinfo)
+			tagdata = m.group(2).strip()
+			tag = m.group(1)
+		except:
+			tag = tagplusinfo.strip()
 
-	return pkglist
-
-def tagged(pkglist, tags):
-	bytag = {}
-
-	for t in tags.keys():
-		for p in pkglist:
-			if t in pkglist[p]:
-				if t not in bytag.keys():
-					bytag[t] = []
-				bytag[t].append(p)
-	return bytag
+		if tag not in tags.keys():
+			tags[tag] = {}
+		if pkgname not in tags[tag]:
+			tags[tag][pkgname] = []
+		if tagdata != "":
+			tags[tag][pkgname].append(tagdata)
+			
+	return tags
 
 def repolist(repofiles):
 	"""Returns a dictionary, in which the keys are the repository names,
@@ -98,10 +109,6 @@ def repopkg(pkgname, repolist):
 			return repo
 	warn("namcap-report: belongs-to-no-repository %s" % pkgname)
 	return "none"
-
-def tagclass(t, errors, warnings):
-	if t in warnings: return 'W'
-	if t in errors: return 'E'
 
 def report(bytag, errors, warnings, tags, repos):
 
