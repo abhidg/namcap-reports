@@ -8,47 +8,36 @@
 
 ver="0.2"
 
-import re, feedwriter, time, os, ConfigParser, sys
+import re
+#import feedwriter
+import time
+import os
+import ConfigParser
+import sys
+
 # Get the tag descriptions.
-from tagscribe import tagscribe
 from sys import exit
 
 standard_locations=('/etc/namcap-reports.conf', 
 	os.path.expanduser('~/.namcap-reports.conf'))
 
 verbose=False
-url, output_dir, template_dir, repo_files = "http://abhidg.mine.nu", "/arch", "/arch", "/arch"	
 
-def warn(s):
-	f = open(os.path.join(output_dir, 'namcap-report-error.log'),'a')
+# Defaults
+url = "http://abhidg.mine.nu"
+output_dir = ""
+template_dir = "/usr/share/namcap-reports/templates"
+log_dir = "log"
+repo_files = "repository"
+
+def warn(s, log_dir):
+	f = open(os.path.join(log_dir, 'namcap-report-error.log'),'a')
 	print >>f, s
 	if verbose: print >>sys.stderr, s
 
 def die(s):
 	print "E: "+s
 	exit(1)
-
-def tags(file):
-	"Gets tag data from a file"
-
-	if verbose: print "namcap-report: getting tag data from file..."	
-	warnings = []
-	errors = []
-	tagd = {}
-
-	try:
-		f = open(file)
-	except:
-		die('Tags file could not be opened.')
-	
-	for i in f.readlines():
-		m = re.match('. ([a-z,0-9,-]*) (.*)\n', i)
-		type, tag, term = i[0],m.group(1), m.group(2)
-		if type == 'W': warnings.append(tag)
-		if type == 'E': errors.append(tag)
-		tagd[tag] = term
-
-	return warnings, errors, tagd
 
 def tagname(line, tags):
 	"Returns the tag code corresponding to a particular line."
