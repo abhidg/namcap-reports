@@ -22,6 +22,6 @@ if [ -f /etc/namcap-reports.conf ]; then
 	process_config /etc/namcap-reports.conf
 fi
 
-if [ -f "$HOME/namcap-reports.conf" ]; then
+if [ -f "$HOME/.namcap-reports.conf" ]; then
 	process_config "$HOME/.namcap-reports.conf"
 fi
