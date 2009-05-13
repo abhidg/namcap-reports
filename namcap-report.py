@@ -237,8 +237,8 @@ def genlistitem(p, repodb):
 <a href="http://archlinux.org/packages/%s/i686/%s/">%s</a>
 %s<span class="%s">%s</span></li>"""	% (repo_of_p, repo_of_p, pkg, pkg, sourcetag, repo_of_p, repo_of_p)
 	else:
-		return """<li class="%s">%s <span class="%s">%s</span>
-</li>""" % (repo_of_p, p, repo_of_p, repo_of_p)
+		return """<li class="%s">%s%s<span class="%s">%s</span>
+</li>""" % (repo_of_p, pkg, sourcetag, repo_of_p, repo_of_p)
 	
 def rss(bytag, tags, repos):
 	"Generates an RSS feed of the tags."
