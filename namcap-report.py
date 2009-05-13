@@ -6,7 +6,7 @@
 # There's no guarantee that this won't melt your computer
 # or will not cause an apocalypse, etc. You get the idea.
 
-ver="0.2"
+ver="0.2.91"
 
 import re
 #import feedwriter
