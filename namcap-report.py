@@ -235,7 +235,7 @@ def genlistitem(p, repodb):
 	if repo_of_p in ['core', 'extra']:
 		return """<li class="%s">
 <a href="http://archlinux.org/packages/%s/i686/%s/">%s</a>
-%s<span class="%s">%s</span></li>"""	% (repo_of_p, repo_of_p, pkg, p, sourcetag, repo_of_p, repo_of_p)
+%s<span class="%s">%s</span></li>"""	% (repo_of_p, repo_of_p, pkg, pkg, sourcetag, repo_of_p, repo_of_p)
 	else:
 		return """<li class="%s">%s <span class="%s">%s</span>
 </li>""" % (repo_of_p, p, repo_of_p, repo_of_p)
