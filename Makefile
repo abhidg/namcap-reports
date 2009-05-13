@@ -1,8 +1,7 @@
 # Makefile for generating namcap-reports
 # Abhishek Dasgupta 
 
-DESTDIR=/
-BINDIR=$(DESTDIR)/usr/bin/
+BINDIR=$(DESTDIR)/usr/bin
 CONFDIR=$(DESTDIR)/etc
 MANDIR=$(DESTDIR)/usr/share/man
 DOCDIR=$(DESTDIR)/usr/share/doc
@@ -18,5 +17,11 @@ install:
 	cp -R scripts $(DESTDIR)/usr/share/namcap-reports/
 	install -D -m644 README $(DOCDIR)/namcap-reports/README
 	install -D -m644 AUTHORS $(DOCDIR)/namcap-reports/AUTHORS
-	install -D -m644 namcap-reports.conf $(CONFDIR)/namcap-reports.conf
+	install -D -m644 namcap-reports.conf.example $(CONFDIR)/namcap-reports.conf
 
+uninstall:
+	rm -r $(DESTDIR)/usr/share/namcap-reports
+	rm -r $(DOCDIR)/namcap-reports/
+	rm $(CONFDIR)/namcap-reports.conf
+	rm $(BINDIR)/namcap-report
+	rm $(BINDIR)/maintainer-report
