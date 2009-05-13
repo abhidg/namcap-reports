@@ -200,8 +200,8 @@ http://sparklines-bitworking.appspot.com</a></p>"""
 		taghasdata = True
 		f = open('tag/'+t[3:]+'.html','w')
 		tagheader = ''.join(open(os.path.join(template_dir, 'tags.html.tmpl')).readlines())
-		tagheader.replace("%tagclass%", t[0])
-		tagheader.replace("%tag%", t[3:])
+		tagheader = tagheader.replace("%tagclass%", t[0])
+		tagheader = tagheader.replace("%tag%", t[3:])
 		print >>f, tagheader
 
 		pkgs = tags[t].keys()
@@ -226,11 +226,13 @@ http://sparklines-bitworking.appspot.com</a></p>"""
 
 def genlistitem(p, repodb):
 	"Returns the <li> tag required in the display."
-	repo_of_p = repopkg(p, repodb)
+	pkg = p
+	if p.endswith("(source)"): pkg = p[:-9]
+	repo_of_p = repopkg(pkg, repodb)
 	if repo_of_p in ['core', 'extra']:
 		return """<li class="%s">
 <a href="http://archlinux.org/packages/%s/i686/%s/">%s</a>
-<span class="%s">%s</span></li>"""	% (repo_of_p, repo_of_p, p, p, repo_of_p, repo_of_p)
+<span class="%s">%s</span></li>"""	% (repo_of_p, repo_of_p, pkg, p, repo_of_p, repo_of_p)
 	else:
 		return """<li class="%s">%s <span class="%s">%s</span>
 </li>""" % (repo_of_p, p, repo_of_p, repo_of_p)
