@@ -277,7 +277,12 @@ if __name__ == "__main__":
 	if "-v" in sys.argv or "--verbose" in sys.argv: verbose=True
 	
 	numloc=0
-	config = ConfigParser.RawConfigParser()
+	config = ConfigParser.SafeConfigParser({
+		'url': url,
+		'template_dir': template_dir,
+		'output_dir': output_dir,
+		'repo_files': repo_files,
+		})
 	for location in standard_locations:
 		if os.path.exists(location):
 			config.read(location)
