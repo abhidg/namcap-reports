@@ -215,7 +215,8 @@ http://sparklines-bitworking.appspot.com</a></p>"""
 		print >>f, "<ul>"
 		if not taghasdata:
 			print >>f, '\n'.join(map(lambda p: genlistitem(p, repodb), pkgs))
-			print >>g, '\n'.join(map(lambda p: repopkg(p, repodb) + "/" + p, pkgs))
+			print >>g, '\n'.join(map(lambda p: repopkg(p.endswith("(source)") \
+					and p[:-9] or p, repodb) + "/" + p, pkgs))
 		else:
 			for p in pkgs:
 				print >>f, genlistitem(p, repodb)[:-5]
