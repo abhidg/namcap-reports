@@ -135,7 +135,7 @@ def report(tags, repos):
 	print >>f, "<ul>"
 	for t in taglist:
 		print >>f, "<li><span class='%s'>%s</span><a href='tag/%s.html'>%s</a>" \
-				"(%d packages)</li>" % (t[0], t[0], t[3:], t[3:], len(tags[t]))
+				" (%d packages)</li>" % (t[0], t[0], t[3:], t[3:], len(tags[t]))
 
 	print >>f, "</ul>"
 
@@ -227,12 +227,15 @@ http://sparklines-bitworking.appspot.com</a></p>"""
 def genlistitem(p, repodb):
 	"Returns the <li> tag required in the display."
 	pkg = p
-	if p.endswith("(source)"): pkg = p[:-9]
+	sourcetag = ""
+	if p.endswith("(source)"):
+		pkg = p[:-9]
+		sourcetag = " <span class='src'>(source)</span>"
 	repo_of_p = repopkg(pkg, repodb)
 	if repo_of_p in ['core', 'extra']:
 		return """<li class="%s">
 <a href="http://archlinux.org/packages/%s/i686/%s/">%s</a>
-<span class="%s">%s</span></li>"""	% (repo_of_p, repo_of_p, pkg, p, repo_of_p, repo_of_p)
+%s<span class="%s">%s</span></li>"""	% (repo_of_p, repo_of_p, pkg, p, sourcetag, repo_of_p, repo_of_p)
 	else:
 		return """<li class="%s">%s <span class="%s">%s</span>
 </li>""" % (repo_of_p, p, repo_of_p, repo_of_p)
