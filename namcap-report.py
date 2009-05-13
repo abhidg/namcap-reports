@@ -14,6 +14,7 @@ import time
 import os
 import ConfigParser
 import sys
+import operator
 
 # Get the tag descriptions.
 from sys import exit
@@ -30,7 +31,9 @@ template_dir = "/usr/share/namcap-reports/templates"
 log_dir = "log"
 repo_files = "repository"
 
-def warn(s, log_dir):
+def warn(s):
+	if not os.path.exists(log_dir):
+		os.mkdir(log_dir)
 	f = open(os.path.join(log_dir, 'namcap-report-error.log'),'a')
 	print >>f, s
 	if verbose: print >>sys.stderr, s
@@ -71,8 +74,8 @@ def seelog(logfile='namcap.log'):
 		tagdata = ""
 		try:
 			tagm = re.match("([W,E]: \S+) (.*)", tagplusinfo)
-			tagdata = m.group(2).strip()
-			tag = m.group(1)
+			tagdata = tagm.group(2).strip()
+			tag = tagm.group(1)
 		except:
 			tag = tagplusinfo.strip()
 
@@ -139,7 +142,7 @@ def report(tags, repos):
 	for tag in taglist:
 		ntag = 0
 		taghasdata = True
-		for pkg in tags:
+		for pkg in tags[tag].keys():
 			if tags[tag][pkg] == []: taghasdata = False
 			if not taghasdata:
 				ntag += len(tags[tag])
@@ -190,6 +193,8 @@ http://sparklines-bitworking.appspot.com</a></p>"""
 	f.close()
 
 	# Generate the tag pages.
+	if not os.path.exists("tag"):
+		os.mkdir("tag")
 
 	for t in taglist:
 		taghasdata = True
@@ -201,7 +206,7 @@ http://sparklines-bitworking.appspot.com</a></p>"""
 
 		pkgs = tags[t].keys()
 		pkgs.sort()
-		if tags[tag][pkgs[0]] == []: taghasdata = False
+		if tags[t][pkgs[0]] == []: taghasdata = False
 	
 		print >>f, "<ul>"
 		if not taghasdata:
@@ -266,10 +271,9 @@ if __name__ == "__main__":
 		exit(1)
 	if "-v" in sys.argv or "--verbose" in sys.argv: verbose=True
 	
-	# Remove any current error logs before starting the run
+	numloc=0
 	config = ConfigParser.RawConfigParser()
 	for location in standard_locations:
-		numloc=0
 		if os.path.exists(location):
 			config.read(location)
 			url=config.get('namcap-reports','url')
@@ -281,9 +285,10 @@ if __name__ == "__main__":
 	if numloc==0: die("No configuration file found\nPut a config file in either:" + \
 		"\n  /etc/namcap-reports.conf\n  $HOME/.namcap-reports.conf")
 
+	# Remove any current error logs before starting the run
 	if os.path.exists(os.path.join(output_dir, 'namcap-report-error.log')):
 		os.remove(os.path.join(output_dir, 'namcap-report-error.log'))
 	os.chdir(output_dir)
-	tags = seelog(tags)
+	tags = seelog()
 	report(tags, ['core', 'extra', 'community'])
 #	rss(bytag, tags, ['core', 'extra', 'community'])
