@@ -9,7 +9,6 @@
 ver="0.2.91"
 
 import re
-#import feedwriter
 import time
 import os
 import ConfigParser
@@ -240,27 +239,6 @@ def genlistitem(p, repodb):
 		return """<li class="%s">%s%s<span class="%s">%s</span>
 </li>""" % (repo_of_p, pkg, sourcetag, repo_of_p, repo_of_p)
 	
-def rss(bytag, tags, repos):
-	"Generates an RSS feed of the tags."
-	repodb = repolist(repos)
-	if verbose: print "namcap-report: generating the RSS feeds..."	
-	last_updated_raw = os.stat('namcap.log').st_mtime
-
-	head_url = url + "/tag/"
-	package_url = "http://archlinux.org/packages/%s/i686/%s/"
-	for t in bytag.keys():
-		f = open('tag/'+t+'.rss','w')
-		c = feedwriter.Channel(title='namcap tag: '+t, link=head_url+t, \
-			description=(tagscribe.has_key(t) and tagscribe[t] or tags[t]))
-		for pkg in sorted(bytag[t]):
-			repo = repopkg(pkg, repodb)
-			if repo in ['core', 'extra']:
-				c.add_item(title=pkg, link=package_url % (repo, pkg), pubDate=last_updated_raw)
-			else:
-				c.add_item(title=pkg, pubDate=last_updated_raw)
-		print >>f, c.rss2()
-		f.close()
-
 def version():
 	print "namcap-reports " + ver
 	print "This is an utility to generate reports from the namcap"
@@ -301,4 +279,3 @@ if __name__ == "__main__":
 	os.chdir(output_dir)
 	tags = seelog()
 	report(tags, ['core', 'extra', 'community'])
-#	rss(bytag, tags, ['core', 'extra', 'community'])
