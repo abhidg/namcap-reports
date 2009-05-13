@@ -1,11 +1,12 @@
 #!/bin/bash
 echo "# gen-namcap-log started: $(date)"
+source "/usr/share/namcap-reports/scripts/common.sh"
+
 ROOT=/var/abs
-OUTDIR="$(pwd)"
 
 cd "$ROOT"
 
 for p in $(find . -type f | grep PKGBUILD); do
-	namcap -m $p 2> /dev/null >> "$OUTDIR/namcap.log"
+	namcap -m $p 2> /dev/null >> "$output_dir/namcap.log"
 done
 echo "# gen-namcap-log stopped: $(date)"
