@@ -11,5 +11,5 @@ cd $repo_files
 for i in core extra community; do
 	rm "$i.db.tar.gz" > /dev/null
 	wget "$(mirror_repo $i)/$i.db.tar.gz"
-	(tar tzvf "$i.db.tar.gz"  | awk '{print $6}' | grep /$ | sed "s/\(.*\)-[0-9,a-z,A-Z,_,\.]*-[0-9]*\//\1/g") >| "$repo_files/$i"
+	(tar tzvf "$i.db.tar.gz"  | awk '{print $6}' | grep /$ | sed "s/\(.*\)-[0-9,a-z,A-Z,_,\.]*-[0-9,\.]*\//\1/g") >| "$repo_files/$i"
 done
