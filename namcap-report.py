@@ -131,8 +131,8 @@ def report(tags, repos):
 	print >>f, ''.join(g.readlines()) % last_updated
 	print >>f, "<ul>"
 	for t in taglist:
-		print >>f, """<li><span class="%s">%s</span><a href="tag/%s.html">%s</a> \
-				(%d packages)</li>""" % (t[0], t[0], t[3:], t[3:], len(tags[t])
+		print >>f, "<li><span class='%s'>%s</span><a href='tag/%s.html'>%s</a>" \
+				"(%d packages)</li>" % (t[0], t[0], t[3:], t[3:], len(tags[t]))
 
 	print >>f, "</ul>"
 
@@ -147,7 +147,7 @@ def report(tags, repos):
 			else:
 				ntag += len(tags[tag][pkg])
 		if tag[0] == "W": total_warn += ntag
-		if tag[0] == "E" total_err += ntag
+		if tag[0] == "E": total_err += ntag
 
 	print >> progress_log, "%s\t%d\t%d" % (time.strftime('%Y%m%d', time.gmtime()), \
 		total_err, total_warn)
@@ -201,7 +201,7 @@ http://sparklines-bitworking.appspot.com</a></p>"""
 
 		pkgs = tags[t].keys()
 		pkgs.sort()
-		if tags[tag][pkgs[0]] == []: then taghasdata = False
+		if tags[tag][pkgs[0]] == []: taghasdata = False
 	
 		print >>f, "<ul>"
 		if not taghasdata:
@@ -281,7 +281,7 @@ if __name__ == "__main__":
 	if numloc==0: die("No configuration file found\nPut a config file in either:" + \
 		"\n  /etc/namcap-reports.conf\n  $HOME/.namcap-reports.conf")
 
-	if os.path.exists(os.path.join(output_dir, 'namcap-report-error.log'):
+	if os.path.exists(os.path.join(output_dir, 'namcap-report-error.log')):
 		os.remove(os.path.join(output_dir, 'namcap-report-error.log'))
 	os.chdir(output_dir)
 	tags = seelog(tags)
