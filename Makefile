@@ -1,18 +1,22 @@
 # Makefile for generating namcap-reports
 # Abhishek Dasgupta 
 
-DESTDIR=/usr
-CONFDIR=/etc
+DESTDIR=/
+BINDIR=$(DESTDIR)/usr/bin/
+CONFDIR=$(DESTDIR)/etc
+MANDIR=$(DESTDIR)/usr/share/man
+DOCDIR=$(DESTDIR)/usr/share/doc
 
 default:
 	# do nothing
 
 install:
-	install -D -m755 namcap-report.py $(DESTDIR)/bin/namcap-report
-	install -D -m755 maintainer-report.py $(DESTDIR)/bin/maintainer-report
-	install -D templates $(DESTDIR)/share/namcap-reports/
-	install -D scripts $(DESTDIR)/share/namcap-reports/
-	install -D -m644 README $(DESTDIR)/share/doc/namcap-reports/README
-	install -D -m644 AUTHORS $(DESTDIR)/share/doc/namcap-reports/AUTHORS
+	install -D -m755 namcap-report.py $(BINDIR)/namcap-report
+	install -D -m755 maintainer-report.py $(BINDIR)/maintainer-report
+	mkdir -p $(DESTDIR)/usr/share/namcap-reports
+	cp -R templates $(DESTDIR)/usr/share/namcap-reports/
+	cp -R scripts $(DESTDIR)/usr/share/namcap-reports/
+	install -D -m644 README $(DOCDIR)/namcap-reports/README
+	install -D -m644 AUTHORS $(DOCDIR)/namcap-reports/AUTHORS
 	install -D -m644 namcap-reports.conf $(CONFDIR)/namcap-reports.conf
 
