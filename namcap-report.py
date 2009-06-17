@@ -135,7 +135,8 @@ def report(tags, repos):
 	print >>f, "<ul>"
 	for t in taglist:
 		print >>f, "<li><span class='%s'>%s</span><a href='tag/%s.html'>%s</a>" \
-				" (%d packages)</li>" % (t[0], t[0], t[3:], t[3:], len(tags[t]))
+				" (%d package%s)</li>" % (t[0], t[0], t[3:], t[3:], len(tags[t]), \
+				len(tags[t]) > 1 and "" or "s")
 
 	print >>f, "</ul>"
 
@@ -203,6 +204,9 @@ http://sparklines-bitworking.appspot.com</a></p>"""
 		tagheader = ''.join(open(os.path.join(template_dir, 'tags.html.tmpl')).readlines())
 		tagheader = tagheader.replace("%tagclass%", t[0])
 		tagheader = tagheader.replace("%tag%", t[3:])
+		tagheader = tagheader.replace("%pkgplural%", len(tags[t].keys()) > 1 and
+				"packages have" or "package has")
+
 		print >>f, tagheader
 		print >>g, "Tag: " + t[3:]
 		print >>g, "Generated: " + last_updated
