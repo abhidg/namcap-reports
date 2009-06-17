@@ -136,7 +136,7 @@ def report(tags, repos):
 	for t in taglist:
 		print >>f, "<li><span class='%s'>%s</span><a href='tag/%s.html'>%s</a>" \
 				" (%d package%s)</li>" % (t[0], t[0], t[3:], t[3:], len(tags[t]), \
-				len(tags[t]) > 1 and "" or "s")
+				len(tags[t]) > 1 and "s" or "")
 
 	print >>f, "</ul>"
 
