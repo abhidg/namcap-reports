@@ -106,6 +106,7 @@ def repolist(repofiles):
 
 def repopkg(pkgname, repolist):
 	"Returns the repository to which a particular package belongs."
+	pkgname = pkgname.strip()
 	for repo in repolist:
 		if pkgname in repolist[repo]:
 			return repo
@@ -248,7 +249,7 @@ def genlistitem(p, repodb):
 	if repo_of_p in ['core', 'extra']:
 		return """<li class="%s">
 <a href="http://archlinux.org/packages/%s/i686/%s/">%s</a>
-%s<span class="%s">%s</span></li>"""	% (repo_of_p, repo_of_p, pkg, pkg, sourcetag, repo_of_p, repo_of_p)
+%s<span class="%s">%s</span></li>"""	% (repo_of_p, repo_of_p, pkg.strip(), pkg.strip(), sourcetag, repo_of_p, repo_of_p)
 	else:
 		return """<li class="%s">%s%s<span class="%s">%s</span>
 </li>""" % (repo_of_p, pkg, sourcetag, repo_of_p, repo_of_p)
