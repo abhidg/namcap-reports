@@ -8,21 +8,26 @@ power of python to churn out HTML.
 **Dependencies** python>=2.5, make, bash, abs, namcap
 
 Here's how the thing works:
+
 * namcap is run against the entire ABS tree (would be better to make
   this run against a latest svn/cvs checkout) and a namcap.log is created.
+
 * gen-pkglist-by-repository churns out three files: core, extra and community
   containing a list of packages in the respective repositories. On an Arch
-  system, this can be easily done using pacman -Slq core >| core etc. This
+  system, this can be easily done using pacman -Slq core >\| core etc. This
   script however works even without pacman installed.
+
 * namcap-report.py takes the namcap.log plus these three repository listings
   and generates the output.
 
 The maintainer-report generation is probably broken right now.
 
 The maintainer report generation works as follows:
+
 * First a maintainers.txt file is created in the same directory as the
   code; this is basically the output of parsing the PKGBUILDs and
   printing out the "# Maintainer: " lines along with the $pkgname.
+
 * Then maintainer-report.py runs and generates the output, by
   default in the "maintainer/" directory.
 
